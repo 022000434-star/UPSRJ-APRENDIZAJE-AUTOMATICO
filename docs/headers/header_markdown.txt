@@ -1,0 +1,11 @@
+<!--
+============================================================
+Politécnica de Santa Rosa
+
+Materia: Arquitecturas de Software
+Profesor: Jesús Salvador López Ortega
+Grupo: ISW28
+Archivo: README.md
+Descripción: Documento principal del proyecto. Contiene instrucciones de instalación, uso, estructura y entorno reproducible.
+============================================================
+-->
