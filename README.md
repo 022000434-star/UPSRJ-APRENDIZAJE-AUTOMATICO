@@ -8,6 +8,8 @@ Descripción: Documento principal del proyecto. Contiene instrucciones de instal
 ============================================================
 -->
 
+![upsrj](docs/img/upsrj.png)
+
 # **Politécnica de Santa Rosa**
 
 - **Carrera: ISW**
