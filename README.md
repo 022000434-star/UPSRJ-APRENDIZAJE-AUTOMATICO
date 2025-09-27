@@ -19,12 +19,37 @@ Descripción: Documento principal del proyecto. Contiene instrucciones de instal
 # **Índice**
 - [**Politécnica de Santa Rosa**](#politécnica-de-santa-rosa)
 - [**Índice**](#índice)
+- [**Configuración del repositorio remoto en GitHub**](#configuración-del-repositorio-remoto-en-github)
 - [**Instalación y configuración de entorno de trabajo**](#instalación-y-configuración-de-entorno-de-trabajo)
   - [Pasos en la terminal de Windows (CMD)](#pasos-en-la-terminal-de-windows-cmd)
   - [Pasos en la terminal de WSL2 (Ubuntu)](#pasos-en-la-terminal-de-wsl2-ubuntu)
   - [Instalación de Docker](#instalación-de-docker)
+- [**Configuración del repositorio remoto en GitHub**](#configuración-del-repositorio-remoto-en-github-1)
+  - [IDE de trabajo](#ide-de-trabajo)
+  - [Pasos en la terminal de WSL2 (Ubuntu)](#pasos-en-la-terminal-de-wsl2-ubuntu-1)
+  - [Ejecuta el contenedor en Visual Studio Code](#ejecuta-el-contenedor-en-visual-studio-code)
 - [**Ejecución de proyectos y pruebas**](#ejecución-de-proyectos-y-pruebas)
 - [**Contacto**](#contacto)
+
+# **Configuración del repositorio remoto en GitHub**
+
+> **Nota:** **Usa tu correo personal para crear tu cuenta de GitHub.** Recuerda que GitHub es tu portafolio personal como desarrollador de software, por lo que querrás conservarlo aún después de graduarte.
+
+1. **Identifica el repositorio base del profesor**
+
+    Con tu cuenta accede al perfil del profesor [Jesus Lopez](https://github.com/chucholoport) y busca el repositorio de tu materia en su [lista de repositorios](https://github.com/chucholoport?tab=repositories).
+
+    ![git repos](docs/img/git_repositories.png)
+
+2. **Crea un Fork del repositorio base del profesor**
+
+    Selecciona el repositorio de tu materia y da click en `Fork` en la esquina superior derecha para crear un repositorio en tu perfil basado en los contenidos del original. Te aparecerá una ventana que te permitirá personalizar tu Fork, deja todo en default y da click en `Create Fork`.
+
+    ![git fork](docs/img/git_fork.png)
+
+🔙 [Volver al índice](#índice)
+
+---
 
 # **Instalación y configuración de entorno de trabajo**
 
@@ -167,21 +192,96 @@ Descripción: Documento principal del proyecto. Contiene instrucciones de instal
 
 🔙 [Volver al índice](#índice)
 
+--- 
+
+# **Configuración del repositorio remoto en GitHub**
+
+## IDE de trabajo
+   
+1. **Instala Visual Studio Code**
+
+    Una vez que tengas tu entorno configurado, estás listo para descargar en tu computadora el código fuente, para ello vamos a utilizar `Visual Studio Code` como IDE de desarrollo con algunas extensiones para mejorar tu experiencia de navegación.
+
+    1. Da click en el enlace de descarga de [Visual Studio Code](https://code.visualstudio.com/docs/?dv=win64user)
+    2. Sigue el proceso de instalación con todas las configuraciones por default.
+
+2. **Agrega las extensiones necesarias**
+    
+    Una vez tengas instalado el IDE, vamos a agregarle las siguientes extensiones:
+    
+    - **Git Graph:** Te permite visualizar el historial de tu repositorio de forma intuitiva.
+    
+    ![alt text](docs/img/extension_gitgraph.png)
+
+    - **WSL:** Te permite conectar WSL a tu instalación de Windows para diferenciar los entornos de trabajo.
+    
+    ![wsl ext](docs/img/extension_wsl.png)
+
+    - **Dev Containers:** Te permite administrar contenedores de Docker, es bastante util para facilitar el arranque del contenedor de trabajo de la materia.
+    
+    ![devcontainers ext](docs/img/extension_devcontainer.png)
+
+    - **Python:** Te permite visualizar código de Python de una mejor manera, asi como funcionalidades de Debug y Ejecución
+    
+    ![python ext](docs/img/extension_python.png)
+
+## Pasos en la terminal de WSL2 (Ubuntu)
+
+1. **Creación del directorio de trabajo**
+
+    - Abre una terminal de **WSL (Ubuntu)** y crea un directorio en donde descargues los repositorios de tus materias, después muévete al directorio creado.
+
+    ```bash
+    mkdir workspace # El comando "mkdir" crea directorios con el nombre de los parámetros de entrada (en este caso "workspace") 
+    cd workspace # El comando "cd" cambia tu dirección actual al parámetro de entrada (en este caso "workspace")
+    ```
+
+    > **Nota:** Por estandarización es recomendado crear un directorio `workspace` en el root `~` de tu usuario, pero puedes crear el directorio de tu elección. 
+
+2. **Clonación del repositorio remoto de GitHub**
+    
+    Ve a GitHub y obtén el `HTTPS` de descarga, puedes verlo dando click en `<> Code` desde tu repositorio.
+    
+    ![git https](docs/img/git_clone_https.png)
+
+    Dentro del directorio de trabajo, ejecuta el comando de clonación de Git para que se cree una copia local del proyecto en tu computadora.
+
+    ```bash
+    git clone https://github.com/chucholoport/upsrj-aprendizaje-automatico.git # El comando "git" corre la aplicación de Git, la bandera "clone" le indica que debe clonar un repositorio remoto, y el HTTPS es el parámetro de entrada del comando
+    ```
+
+    ![git clone](docs/img/git_clone_local.png)
+
+3. **Abre el repositorio en Visual Studio Code**
+
+    Una vez tengas el repositorio clonado, es hora de compilar el contenedor para poder empezar a trabajar. Para ello muévete al directorio del repositorio clonado e **invoca Visual Studio Code desde WSL.**
+
+    ```bash
+    cd upsrj-aprendizaje-automatico # El comando "cd" cambia tu dirección actual al parámetro de entrada (en este caso "upsrj-aprendizaje-automatico")
+    code . # El comando "code" abre Visual Studio Code y el parámetro de entrada "." le indica que debe ser en el directorio actual
+    ```
+
+    ![open code](docs/img/vscode_open.png)
+
+## Ejecuta el contenedor en Visual Studio Code
+
+Finalmente, al tener abierto el IDE, vamos a pedirle a Visual Studio Code que corra el contenedor del proyecto para que nos instale todas las dependencias y configuraciones necesarias. Para ello, vamos a dar click en el botón azul `><` de la parte inferior izquierda y seleccionar `Reopen in Container`.
+
+![open container](docs/img/open_container.png)
+
+🔙 [Volver al índice](#índice)
+
+--- 
+
 # **Ejecución de proyectos y pruebas**
 
-1. Abre el proyecto en **Visual Studio Code** desde WSL2.
-   
-    > **Nota:** Puedes hacerlo moviendote desde la terminal de Ubuntu hasta la raíz del repositorio y ejecutando `code .`
+1. Dentro del contenedor, presiona `Ctrl + Shift + B` o `Ctrl + B` (según tu configuración).
 
-    ![wsl code](docs/img/wsl_code.png)
-
-2. Presiona `Ctrl + Shift + B` o `Ctrl + B` (según tu configuración).
-
-3. Selecciona la opción `Ejecutar proyecto` o bien `Ejecutar pruebas`.
+2. Selecciona la opción `Ejecutar proyecto` o bien `Ejecutar pruebas`.
    
     ![build commands](docs/img/vscode_build.png)
 
-4. Verás el resultado en la terminal integrada.
+3. Verás el resultado en la terminal integrada.
 
     ![build project](docs/img/vscode_run.png)
 
