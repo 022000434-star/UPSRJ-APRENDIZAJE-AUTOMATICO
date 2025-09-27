@@ -1,0 +1,9 @@
+# ============================================================
+# Politécnica de Santa Rosa
+#
+# Materia: Arquitecturas de Software
+# Profesor: Jesús Salvador López Ortega
+# Grupo: ISW28
+# Archivo: [nombre_del_archivo.py]
+# Descripción: [breve descripción del propósito del archivo]
+# ============================================================
