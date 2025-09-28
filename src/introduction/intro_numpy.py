@@ -1,0 +1,105 @@
+# ============================================================
+# Politécnica de Santa Rosa
+#
+# Materia: Aprendizaje automático
+# Profesor: Jesús Salvador López Ortega
+# Grupo: IRC02
+# Archivo: numpy.py
+# Descripción: Ejercicios básicos de manejo de numpy
+# ============================================================
+import numpy as np
+#########################################################################
+# NOTE: Revisa la API de Numpy en https://numpy.org/doc/1.21/reference/ #
+#########################################################################
+
+# Ejercicio 1
+# 
+# TODO: Crea una función "ten_zeros_array" que devuelva un arreglo de "n" ceros.
+# NOTE: https://numpy.org/doc/stable/reference/generated/numpy.zeros.html
+def ten_zeros_array(n: int) -> np.ndarray:
+    arg = None
+    return arg
+
+# Ejercicio 2
+# 
+# TODO: Crea una función "floats_array" que devuelva un arreglo de números continuos 
+#       (float) de "start" a "stop".
+# NOTE: https://numpy.org/doc/stable/reference/generated/numpy.arange.html
+def floats_array(start: int, stop: int) -> np.ndarray:
+    arg = None
+    return arg
+
+# Ejercicio 3 
+# TODO: Crea una funcion "invert_array" que devuelva el arreglo de entrada invertido.
+#       El parámetro de entrada debe ser un array de numpy.
+# NOTE: https://numpy.org/doc/stable/reference/generated/numpy.flip.html
+def invert_array(arg: np.ndarray) -> np.ndarray:
+    inverted = None
+    return inverted
+
+# Ejercicio 4
+# TODO: Crea una funcion "square_matrix" que devuelva una matriz cuadrada de orden n 
+#       con valores (int) desde "start"(int) a "stop"(int).
+# NOTE: https://numpy.org/doc/stable/reference/generated/numpy.matrix.html
+def square_matrix(n: int, start: int, stop: int) -> np.ndarray:
+    matrix = None
+    return matrix
+
+# Ejercicio 5
+# TODO: Genera una función "find_upper_five" que devuelva una matriz de los índices de elementos mayores a 5 de una matriz.
+#       El parámetro de entrada debe ser una matriz de numpy.
+#       El formato de salida debería ser así para la matriz 
+#       [0,1,2]           
+#       [3,4,5]    -->    [[2 1], [0 2], [1 2], [2, 2]]   
+#       [6,7,8]           
+# NOTE: https://numpy.org/doc/stable/reference/generated/numpy.argwhere.html
+def find_upper_five(matrix: np.ndarray) -> np.ndarray:
+    indices = None
+    return indices
+
+# Ejercicio 6
+# TODO: Genera una función "get_statistics" que calcule el promedio, la media y la desviación estándar de un arreglo numpy.
+#       El parámetro de entrada debe ser un arreglo de numpy y la salida será un tuple con las tres estadísticas
+#       en el orden: promedio, mediana, desviación estándar
+# NOTE: https://numpy.org/doc/stable/reference/generated/numpy.mean.html
+#       https://numpy.org/doc/stable/reference/generated/numpy.median.html
+#       https://numpy.org/doc/stable/reference/generated/numpy.std.html
+def get_statistics(arg: np.ndarray) -> tuple:
+    mean = None
+    median = None
+    standard = None
+    return (mean, median, standard)
+
+# Ejercicio 7
+# TODO: Crea una función "identity_matrix" que devuelva una matriz identidad de orden n.
+#       El parámetro de entrada debe ser "n" que es el orden de la matriz en formato (int).
+# NOTE: https://numpy.org/doc/stable/reference/generated/numpy.identity.html
+def identity_matrix(n: int) -> np.ndarray:
+    matrix = None
+    return matrix
+
+# Ejercicio 8
+# TODO: Crea una función "multiply_matrices" que devuelva el resultado de la multiplicación de 
+#       dos matrices de numpy "a" y "b" que se dan a la entrada.
+# NOTE: https://numpy.org/doc/stable/reference/generated/numpy.matmul.html
+def multiply_matrices(a:np.ndarray, b:np.ndarray) -> np.ndarray:
+    multiplication = None
+    return multiplication
+
+# Ejercicio 9
+# TODO: Crea una función "normalize" que normalice un arreglo usando la fórmula 
+#       (x - min) / (max - min). El parámetro de entrada debe ser un arreglo de numpy y la salida 
+#       debe ser el arreglo normalizado.
+# NOTE: https://numpy.org/doc/stable//reference/generated/numpy.min.html
+#       https://numpy.org/doc/stable/reference/generated/numpy.max.html
+def normalize(arg:np.ndarray) -> np.ndarray:
+    normalized = None
+    return normalized
+
+# Ejercicio 10
+# TODO: Crea una función "count_in_range" que cuente cuántos elementos de un array de numpy están entre
+#       un rango de "a" y "b". Los parámetros de entrada deben ser arreglos de numpy y la salida debe ser
+#       el total de elementos que se contaron en formato (int).
+def count_in_range(arr: np.ndarray, a: float, b: float) -> int:
+    count = None
+    return count

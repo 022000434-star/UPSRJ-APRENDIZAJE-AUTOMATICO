@@ -1,11 +1,11 @@
 # ============================================================
 # Politécnica de Santa Rosa
 #
-# Materia: Arquitecturas de Software
+# Materia: Aprendizaje automático
 # Profesor: Jesús Salvador López Ortega
-# Grupo: ISW28
-# Archivo: [nombre_del_archivo.py]
-# Descripción: [breve descripción del propósito del archivo]
+# Grupo: IRC02
+# Archivo: main.py
+# Descripción: Script principal del proyecto
 # ============================================================
 
 def suma(a, b):
