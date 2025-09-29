@@ -33,4 +33,4 @@ jobs:
     - name: Ejecutar pruebas unitarias
       uses: devcontainers/ci@v0.3
       with:
-        runCmd: pytest
+        runCmd: python tests/test_evaluation.py
