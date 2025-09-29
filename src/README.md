@@ -1,4 +1,4 @@
-# **Título del Ejercicio**
+# **Introducción a librerías de procesamiento de datos y Regresión Lineal con Python**
 
 # **Índice**
 - [**Título del Ejercicio**](#título-del-ejercicio)
@@ -16,44 +16,27 @@
 
 # **Fecha de entrega**
 
-- Fecha de inicio:  00/00/00
-- Fecha de entrega: 00/00/00
+- Fecha de inicio:  29/09/25
+- Fecha de entrega: 06/10/25
 
 🔙 [Volver al índice](#índice)
 
 ---
 
-# **Actividad de clase**
+# **Actividad**
 
 ## Objetivos
 
-- Objetivo
-- Objetivo
-- Objetivo
+- Que el alumno se familiarice con el uso de herramientas de procesamiento de datos como `numpy`, `scipy`, `pandas` y `scikit-learn`.
+- Que el alumno entienda el concepto de regresión lineal mediante el desarrollo de modelos con herramientas de software.
+- Que el alumno ejecute el paso de separación de datos para el entrenamiento de modelos de aprendizaje automático.
 
 ## Pasos
 
-1. Paso
-2. Paso
-3. Paso
-
-🔙 [Volver al índice](#índice)
-
----
-
-# **Tarea**
-
-## Objetivos
-
-- Objetivo
-- Objetivo
-- Objetivo
-
-## Pasos
-
-1. Paso
-2. Paso
-3. Paso
+1. Resuelve todos los `TODO` en los archivos de python dentro del paquete `introduction`.
+2. Resuelve todos los `TODO` en los archivos de python dentro del paquete `linear_regression`.
+3. Completa las pruebas unitarias exitosamente.
+4. Haz **commit** y entrega en el branch `develop` de tu Fork de GitHub.
 
 🔙 [Volver al índice](#índice)
 
