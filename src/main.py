@@ -7,10 +7,112 @@
 # Archivo: main.py
 # Descripción: Script principal del proyecto
 # ============================================================
+import introduction as intro
+import numpy as np
+import matplotlib.pyplot as plt
+import sys, os
 
-def suma(a, b):
-    return a + b
+# Ruta al archivo de entrada
+FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "inputs", "estudiantes.csv")
 
+def main():
+    
+    # Status: OK
+    status = os.EX_OK
+    
+    try:
+        print(f"Procesando lista de estudiantes.")
+        
+        # Cargar estudiantes
+        total, df = intro.csv_registers(FILE)
+        if total is None or df is None:
+            print("Error: No se pudo cargar el archivo CSV.\n")
+            return os.EX_SOFTWARE
+        print(f"- Estudiantes cargados: {total}")
+
+        # Filtrar estudiantes con calificación > 8
+        aprobados = intro.get_above(df, col="calificacion", n=8)
+        if aprobados is None or aprobados.empty:
+            print("Error: No se pudo filtrar estudiantes aprobados.\n")
+            return os.EX_SOFTWARE
+        print(f"- Estudiantes aprobados:\n{aprobados}")
+
+        # Agrupar por carrera y calcular promedio
+        promedio_por_carrera = intro.group_and_average(aprobados, group="carrera", avg="calificacion")
+        if promedio_por_carrera is None or promedio_por_carrera.empty:
+            print("Error: No se pudo calcular el promedio por carrera.\n")
+            return os.EX_SOFTWARE
+        print(f"- Promedio por carrera:\n{promedio_por_carrera}")
+
+        # Exportar resultados
+        OUTPUT = os.path.join(os.path.dirname(__file__), "outputs", "aprobados.csv")
+        try:
+            intro.export_data(aprobados, OUTPUT)
+            print(f"- Datos exportados a: {OUTPUT}")
+        except:
+            print("Error: No se pudo exportar el archivo CSV.\n")
+            return os.EX_SOFTWARE
+
+        # Comparar DataFrames
+        son_iguales = intro.compare_dfs(df, aprobados)
+        if son_iguales is None:
+            print("Error: No se pudo comparar los DataFrames.\n")
+            return os.EX_SOFTWARE
+        print(f"- ¿Original y filtrado son iguales?: {son_iguales}")
+
+        # Obtener columna de promedios
+        if "promedio" not in df.columns:
+            print("Error: La columna 'promedio' no existe en el DataFrame.\n")
+            return os.EX_SOFTWARE
+        calificaciones = df["promedio"].to_numpy()
+
+        # Obtener estadísticas con NumPy
+        mean, median, std = intro.get_statistics_numpy(calificaciones)
+        if mean is None or median is None or std is None:
+            print("Error: No se pudieron calcular las estadísticas.\n")
+            return os.EX_SOFTWARE
+        print(f"Estadísticas generales:\n- Promedio: {mean:.2f}\n- Mediana: {median:.2f}\n- Desviación estándar: {std:.2f}")
+
+        # Simular señal de calificaciones y aplicar filtro pasa-bajas
+        fs = 100
+        t = np.linspace(0, 1, len(calificaciones), endpoint=False)
+        ruido = 0.5 * np.sin(2 * np.pi * 50 * t)
+        curva_suavizada = intro.low_pass_filter(calificaciones + ruido, fs)
+        if curva_suavizada is None:
+            print("Error: No se pudo aplicar el filtro pasa-bajas.\n")
+            return os.EX_SOFTWARE
+
+        # Reasignar calificaciones suavizadas
+        df["calificacion curvada"] = curva_suavizada
+
+        # Visualizar la calificación real vs. curvada
+        # Analisis de justicia evaluativa, variabilidad y decisiones pedagógicas basadas en datos.
+        try:
+            plt.figure(figsize=(10, 5))
+            plt.plot(calificaciones, label="Calificación real", marker='o')
+            plt.plot(curva_suavizada, label="Calificación curvada", marker='x', linestyle='--')
+            plt.title("Comparación: Calificación real vs. curvada")
+            plt.xlabel("Estudiante")
+            plt.ylabel("Calificación")
+            plt.legend()
+            plt.grid(True)
+            plt.tight_layout()
+            plt.savefig("analisis.png", dpi=300)
+            plt.show()
+            print("Gráfica guardada como 'analisis.png'\n")
+        except:
+            print("Error: No se pudo generar la gráfica.\n")
+            return os.EX_SOFTWARE
+
+        print(f"Completado.\n")
+        
+    except Exception as e:
+        # Status: Error de software
+        status = os.EX_SOFTWARE
+        print(f"Error inesperado: {e}\n")
+    
+    # Return de la función: status EX_OK (0) | EX_SOFTWARE (70)
+    return status    
+    
 if __name__ == "__main__":
-    resultado = suma(3, 5)
-    print(f"Resultado de la suma: {resultado}")
+    sys.exit(main())

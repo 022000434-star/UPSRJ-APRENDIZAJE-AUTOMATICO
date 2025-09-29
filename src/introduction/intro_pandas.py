@@ -17,7 +17,18 @@ import pandas as pd
 # TODO: Crea una función "csv_registers" que reciba un CSV y devuelva la cantidad de registros (int).
 #       así como el contenido en un DataFrame en un tuple(int, DataFrame).
 # NOTE: https://pandas.pydata.org/docs/dev/reference/api/pandas.read_csv.html
-def csv_registers(file: str) -> int:
+def csv_registers(file: str) -> tuple[int, pd.DataFrame]:
+    """
+    Lee un archivo CSV y devuelve la cantidad de registros junto con su contenido.
+
+    Parámetros:
+    - file: str
+        Ruta al archivo CSV.
+
+    Retorna:
+    - tuple: (n_registros, DataFrame)
+        Número de registros y contenido como DataFrame.
+    """
     data = None
     registers = None
     return (registers, data)
@@ -27,7 +38,18 @@ def csv_registers(file: str) -> int:
 # TODO: Crea una función "json_registers" que reciba un JSON y devuelva la cantidad de registros (int).
 #       así como el contenido en un DataFrame en un tuple(int, DataFrame).
 # NOTE: https://pandas.pydata.org/docs/dev/reference/api/pandas.read_json.html
-def json_registers(file: str) -> tuple:
+def json_registers(file: str) -> tuple[int, pd.DataFrame]:
+    """
+    Lee un archivo JSON y devuelve la cantidad de registros junto con su contenido.
+
+    Parámetros:
+    - file: str
+        Ruta al archivo JSON.
+
+    Retorna:
+    - tuple: (n_registros, DataFrame)
+        Número de registros y contenido como DataFrame.
+    """
     data = None
     registers = None
     return (registers, data)
@@ -37,7 +59,18 @@ def json_registers(file: str) -> tuple:
 # TODO: Crea una función "yaml_registers" que reciba un YAML y devuelva la cantidad de registros (int)
 #       así como el contenido en un DataFrame en un tuple(int, DataFrame).
 # NOTE: https://pyyaml.org/wiki/PyYAMLDocumentation
-def yaml_registers(file: str) -> tuple:
+def yaml_registers(file: str) -> tuple[int, pd.DataFrame]:
+    """
+    Lee un archivo YAML y devuelve la cantidad de registros junto con su contenido.
+
+    Parámetros:
+    - file: str
+        Ruta al archivo YAML.
+
+    Retorna:
+    - tuple: (n_registros, DataFrame)
+        Número de registros y contenido como DataFrame.
+    """
     data = None
     registers = None
     return (registers, data)
@@ -46,6 +79,19 @@ def yaml_registers(file: str) -> tuple:
 # TODO: Crea una función "get_head" que devuelva un DataFrame solo con los primeros n registros de otro DataFrame.
 # NOTE: https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.head.html
 def get_head(df: pd.DataFrame, n: int) -> pd.DataFrame:
+    """
+    Devuelve los primeros n registros de un DataFrame.
+
+    Parámetros:
+    - df: pd.DataFrame
+        DataFrame de entrada.
+    - n: int
+        Número de registros a extraer.
+
+    Retorna:
+    - pd.DataFrame
+        Subconjunto con los primeros n registros.
+    """
     df_head = None
     return df_head
 
@@ -54,6 +100,21 @@ def get_head(df: pd.DataFrame, n: int) -> pd.DataFrame:
 #       mayores al valor de entrada "n" en la columna "col" del DataFrame "df" a la entrada. 
 # NOTE: https://pandas.pydata.org/pandas-docs/stable/reference/frame.html#dataframe
 def get_above(df: pd.DataFrame, col: str, n: int) -> pd.DataFrame:
+    """
+    Filtra los registros de un DataFrame donde los valores de una columna son mayores a n.
+
+    Parámetros:
+    - df: pd.DataFrame
+        DataFrame de entrada.
+    - col: str
+        Nombre de la columna a evaluar.
+    - n: int
+        Valor umbral para el filtrado.
+
+    Retorna:
+    - pd.DataFrame
+        Registros que cumplen la condición col > n.
+    """
     above = None
     return above
 
@@ -63,6 +124,21 @@ def get_above(df: pd.DataFrame, col: str, n: int) -> pd.DataFrame:
 #       entrada, debe devolver un objeto Series.
 # NOTE: https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.groupby.html
 def group_and_average(df: pd.DataFrame, group: str, avg: str) -> pd.Series:
+    """
+    Agrupa un DataFrame por una columna y calcula el promedio de otra.
+
+    Parámetros:
+    - df: pd.DataFrame
+        DataFrame de entrada.
+    - group: str
+        Columna por la cual agrupar.
+    - avg: str
+        Columna sobre la cual calcular el promedio.
+
+    Retorna:
+    - pd.Series
+        Promedio por grupo.
+    """
     grouped = None
     return grouped
 
@@ -70,19 +146,59 @@ def group_and_average(df: pd.DataFrame, group: str, avg: str) -> pd.Series:
 # TODO: Crea una función "count_in_col" que cuente elementos "item" en un DataFrame de entrada 
 #       de una columna "col" de entrada. La salida debe ser el conteo de elementos (int).
 def count_in_col(df: pd.DataFrame, item: str, col: str) -> int:
+    """
+    Cuenta cuántas veces aparece un elemento en una columna de un DataFrame.
+
+    Parámetros:
+    - df: pd.DataFrame
+        DataFrame de entrada.
+    - item: str
+        Elemento a contar.
+    - col: str
+        Columna donde buscar el elemento.
+
+    Retorna:
+    - int
+        Número de ocurrencias del elemento.
+    """
     count = None
     return count 
 
 # Ejercicio 8
 # TODO: Crea una función "export_data" que exporte un DataFrame de entrada a un archivo CSV "file" de entrada.
 # NOTE: https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.to_csv.html
-def export_data(df: pd.DataFrame, file: str):
+def export_data(df: pd.DataFrame, file: str) -> None:
+    """
+    Exporta un DataFrame a un archivo CSV.
+
+    Parámetros:
+    - df: pd.DataFrame
+        DataFrame a exportar.
+    - file: str
+        Ruta destino del archivo CSV.
+
+    Retorna:
+    - None
+    """
     pass
 
 # Ejercicio 9
 # TODO: Crea una función "compare_dfs" que compare dos DataFrame de entrada y devuelva un True (bool) si son iguales
 #       o bien, un False (bool) si no lo son.
 def compare_dfs(df1: pd.DataFrame, df2: pd.DataFrame) -> bool:
+    """
+    Compara dos DataFrames y determina si son iguales.
+
+    Parámetros:
+    - df1: pd.DataFrame
+        Primer DataFrame.
+    - df2: pd.DataFrame
+        Segundo DataFrame.
+
+    Retorna:
+    - bool
+        True si son iguales, False si no lo son.
+    """
     equal = None
     return equal
 

@@ -17,6 +17,17 @@ import numpy as np
 # TODO: Crea una función "ten_zeros_array" que devuelva un arreglo de "n" ceros.
 # NOTE: https://numpy.org/doc/stable/reference/generated/numpy.zeros.html
 def ten_zeros_array(n: int) -> np.ndarray:
+    """
+    Genera un arreglo de n ceros.
+
+    Parámetros:
+    - n: int
+        Número de elementos en el arreglo.
+
+    Retorna:
+    - np.ndarray
+        Arreglo de ceros de longitud n.
+    """
     arg = None
     return arg
 
@@ -26,6 +37,19 @@ def ten_zeros_array(n: int) -> np.ndarray:
 #       (float) de "start" a "stop".
 # NOTE: https://numpy.org/doc/stable/reference/generated/numpy.arange.html
 def floats_array(start: int, stop: int) -> np.ndarray:
+    """
+    Genera un arreglo de números flotantes continuos desde start hasta stop (sin incluir).
+
+    Parámetros:
+    - start: int
+        Valor inicial del arreglo.
+    - stop: int
+        Valor final (no incluido) del arreglo.
+
+    Retorna:
+    - np.ndarray
+        Arreglo de números flotantes.
+    """
     arg = None
     return arg
 
@@ -34,6 +58,17 @@ def floats_array(start: int, stop: int) -> np.ndarray:
 #       El parámetro de entrada debe ser un array de numpy.
 # NOTE: https://numpy.org/doc/stable/reference/generated/numpy.flip.html
 def invert_array(arg: np.ndarray) -> np.ndarray:
+    """
+    Invierte el orden de los elementos de un arreglo.
+
+    Parámetros:
+    - arg: np.ndarray
+        Arreglo de entrada.
+
+    Retorna:
+    - np.ndarray
+        Arreglo invertido.
+    """
     inverted = None
     return inverted
 
@@ -42,6 +77,21 @@ def invert_array(arg: np.ndarray) -> np.ndarray:
 #       con valores (int) desde "start"(int) a "stop"(int).
 # NOTE: https://numpy.org/doc/stable/reference/generated/numpy.matrix.html
 def square_matrix(n: int, start: int, stop: int) -> np.ndarray:
+    """
+    Genera una matriz cuadrada de orden n con valores enteros desde start hasta stop.
+
+    Parámetros:
+    - n: int
+        Orden de la matriz cuadrada.
+    - start: int
+        Valor inicial.
+    - stop: int
+        Valor final (no incluido).
+
+    Retorna:
+    - np.ndarray
+        Matriz cuadrada con valores enteros.
+    """
     matrix = None
     return matrix
 
@@ -54,6 +104,17 @@ def square_matrix(n: int, start: int, stop: int) -> np.ndarray:
 #       [6,7,8]           
 # NOTE: https://numpy.org/doc/stable/reference/generated/numpy.argwhere.html
 def find_upper_five(matrix: np.ndarray) -> np.ndarray:
+    """
+    Encuentra los índices de los elementos mayores a 5 en una matriz.
+
+    Parámetros:
+    - matrix: np.ndarray
+        Matriz de entrada.
+
+    Retorna:
+    - np.ndarray
+        Arreglo de índices donde los valores son mayores a 5.
+    """
     indices = None
     return indices
 
@@ -64,7 +125,18 @@ def find_upper_five(matrix: np.ndarray) -> np.ndarray:
 # NOTE: https://numpy.org/doc/stable/reference/generated/numpy.mean.html
 #       https://numpy.org/doc/stable/reference/generated/numpy.median.html
 #       https://numpy.org/doc/stable/reference/generated/numpy.std.html
-def get_statistics(arg: np.ndarray) -> tuple:
+def get_statistics(arg: np.ndarray) -> tuple[float, float, float]:
+    """
+    Calcula el promedio, la mediana y la desviación estándar de un arreglo.
+
+    Parámetros:
+    - arg: np.ndarray
+        Arreglo de entrada.
+
+    Retorna:
+    - tuple: (mean, median, std)
+        Promedio, mediana y desviación estándar como flotantes.
+    """
     mean = None
     median = None
     standard = None
@@ -75,6 +147,17 @@ def get_statistics(arg: np.ndarray) -> tuple:
 #       El parámetro de entrada debe ser "n" que es el orden de la matriz en formato (int).
 # NOTE: https://numpy.org/doc/stable/reference/generated/numpy.identity.html
 def identity_matrix(n: int) -> np.ndarray:
+    """
+    Genera una matriz identidad de orden n.
+
+    Parámetros:
+    - n: int
+        Orden de la matriz identidad.
+
+    Retorna:
+    - np.ndarray
+        Matriz identidad de tamaño n x n.
+    """
     matrix = None
     return matrix
 
@@ -83,6 +166,19 @@ def identity_matrix(n: int) -> np.ndarray:
 #       dos matrices de numpy "a" y "b" que se dan a la entrada.
 # NOTE: https://numpy.org/doc/stable/reference/generated/numpy.matmul.html
 def multiply_matrices(a:np.ndarray, b:np.ndarray) -> np.ndarray:
+    """
+    Multiplica dos matrices de NumPy.
+
+    Parámetros:
+    - a: np.ndarray
+        Primera matriz.
+    - b: np.ndarray
+        Segunda matriz.
+
+    Retorna:
+    - np.ndarray
+        Resultado de la multiplicación matricial.
+    """
     multiplication = None
     return multiplication
 
@@ -93,6 +189,17 @@ def multiply_matrices(a:np.ndarray, b:np.ndarray) -> np.ndarray:
 # NOTE: https://numpy.org/doc/stable//reference/generated/numpy.min.html
 #       https://numpy.org/doc/stable/reference/generated/numpy.max.html
 def normalize(arg:np.ndarray) -> np.ndarray:
+    """
+    Normaliza un arreglo usando la fórmula (x - min) / (max - min).
+
+    Parámetros:
+    - arg: np.ndarray
+        Arreglo de entrada.
+
+    Retorna:
+    - np.ndarray
+        Arreglo normalizado.
+    """
     normalized = None
     return normalized
 
@@ -101,5 +208,20 @@ def normalize(arg:np.ndarray) -> np.ndarray:
 #       un rango de "a" y "b". Los parámetros de entrada deben ser arreglos de numpy y la salida debe ser
 #       el total de elementos que se contaron en formato (int).
 def count_in_range(arr: np.ndarray, a: float, b: float) -> int:
+    """
+    Cuenta cuántos elementos de un arreglo están dentro del rango [a, b].
+
+    Parámetros:
+    - arr: np.ndarray
+        Arreglo de entrada.
+    - a: float
+        Límite inferior del rango.
+    - b: float
+        Límite superior del rango.
+
+    Retorna:
+    - int
+        Número de elementos dentro del rango.
+    """
     count = None
     return count

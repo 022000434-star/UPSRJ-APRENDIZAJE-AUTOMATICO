@@ -16,7 +16,7 @@
     {
       "label": "Ejecutar pruebas",
       "type": "shell",
-      "command": "pytest",
+      "command": "python tests/test_evaluation.py",
       "group": "build",
       "presentation": {
         "echo": true,
