@@ -16,6 +16,7 @@ import main
 import introduction.intro_numpy as inp
 import introduction.intro_pandas as ipd
 import introduction.intro_scipy as isp
+from linear_regression.linear_regression import LinearRegressionCompare
 
 # Colores ANSI
 GREEN = "\033[92m"
@@ -24,6 +25,13 @@ LIGHT_RED = "\033[31m"
 RESET = "\033[0m"
 BOLD = "\033[1m"
 SEPARATOR = f"{BOLD}{'='*50}{RESET}"
+
+SOURCE_URL = "https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-ML0101EN-SkillsNetwork/labs/Module%202/data/FuelConsumptionCo2.csv"
+OUTPUT_DIR = "test_outputs"
+FEATURE_1 = "ENGINESIZE"
+FEATURE_2 = "FUELCONSUMPTION_COMB"
+BASE = "CO2EMISSIONS"
+HISTOGRAM = os.path.join(OUTPUT_DIR, "histogram.png")
 
 class CustomTestResult(unittest.TextTestResult):
     def __init__(self, *args, **kwargs):
@@ -38,7 +46,7 @@ class CustomTestRunner(unittest.TextTestRunner):
     def _makeResult(self):
         return CustomTestResult(self.stream, self.descriptions, self.verbosity)
 
-class TestEvaluation(unittest.TestCase):
+class TestEvaluationOne(unittest.TestCase):
     
     # ===================== intro_numpy =====================
 
@@ -170,22 +178,74 @@ class TestEvaluation(unittest.TestCase):
         self.assertTrue(os.path.exists(output_csv), "No se encontró 'aprobados.csv'")
         self.assertTrue(os.path.exists(output_plot), "No se encontró 'analisis.png'")
 
+class TestEvaluationTwo(unittest.TestCase):
+
+    # ===================== linear_regression =====================
+
+    @classmethod
+    def setUpClass(cls):
+        if not os.path.exists(OUTPUT_DIR):
+            os.mkdir(OUTPUT_DIR)
+        cls.model = LinearRegressionCompare(
+            url=SOURCE_URL,
+            hist=HISTOGRAM,
+            base=BASE,
+            f1=FEATURE_1,
+            f2=FEATURE_2,
+            out=OUTPUT_DIR
+        )
+
+    def test_attributes_exist(self):
+        self.assertIsInstance(self.model.x1, np.ndarray)
+        self.assertIsInstance(self.model.x2, np.ndarray)
+        self.assertIsInstance(self.model.y, np.ndarray)
+        self.assertIsNotNone(self.model.m1)
+        self.assertIsNotNone(self.model.m2)
+        self.assertIsInstance(self.model.p1, np.ndarray)
+        self.assertIsInstance(self.model.p2, np.ndarray)
+
+    def test_model_training(self):
+        coef1 = self.model.m1.coef_[0][0]
+        coef2 = self.model.m2.coef_[0][0]
+        self.assertIsInstance(coef1, float)
+        self.assertIsInstance(coef2, float)
+
+    def test_output_files_created(self):
+        files = [
+            f"relationship_{FEATURE_1.lower()}_{BASE.lower()}.png",
+            f"relationship_{FEATURE_2.lower()}_{BASE.lower()}.png",
+            f"linear_regression_{FEATURE_1.lower()}_{BASE.lower()}.png",
+            f"linear_regression_{FEATURE_2.lower()}_{BASE.lower()}.png",
+            "histogram.png"
+        ]
+        for f in files:
+            self.assertTrue(os.path.exists(os.path.join(OUTPUT_DIR, f)))
+
+    def test_prepare_data_output_shape(self):
+        d1 = self.model.prepare_data(self.model.x1, self.model.y, prc=0.2, random_state=42)
+        self.assertEqual(len(d1), 4)
+        for arr in d1:
+            self.assertIsInstance(arr, np.ndarray)
+
 if __name__ == '__main__':
-    suite = unittest.defaultTestLoader.loadTestsFromTestCase(TestEvaluation)
-    silent_stream = io.StringIO()
-    runner = CustomTestRunner(stream=silent_stream, verbosity=0)
-    result = runner.run(suite)
+    
+    # ===================== ejercicio 1 =====================
+    
+    suite1 = unittest.defaultTestLoader.loadTestsFromTestCase(TestEvaluationOne)
+    silent_stream1 = io.StringIO()
+    runner1 = CustomTestRunner(stream=silent_stream1, verbosity=0)
+    result1 = runner1.run(suite1)
 
-
-    print(f"{BOLD}EVALUACION{RESET}")
+    print(f"{BOLD}EVALUACION 1{RESET}")
     # Resultados individuales
     print(SEPARATOR)
     print(f"{BOLD}Resultados individuales:{RESET}")
-    for test_case in result.successes:
+    for test_case in result1.successes:
         print(f"{test_case._testMethodName}: {GREEN}{BOLD}PASSED{RESET}")
 
-    for test_case, traceback in result.failures + result.errors:
-        print(f"{test_case._testMethodName}: {RED}{BOLD}FAILED{RESET}")
+    for test_case, traceback in result1.failures + result1.errors:
+        name = getattr(test_case, "_testMethodName", str(test_case))
+        print(f"{name}: {RED}{BOLD}FAILED{RESET}")
         # Extraer solo el mensaje de la última línea del traceback
         last_line = traceback.strip().split('\n')[-1]
         mensaje = last_line.split(':')[-1].strip()
@@ -194,10 +254,41 @@ if __name__ == '__main__':
     # Resumen final
     print(SEPARATOR)
     print(f"{BOLD}Resumen final:{RESET}")
-    if result.wasSuccessful():
+    if result1.wasSuccessful():
         print(f"{GREEN}{BOLD}SUCCESS:{RESET} Todos los tests pasaron correctamente.")
     else:
         print(f"{RED}{BOLD}FAILED:{RESET} Uno o más tests fallaron.")
     print(SEPARATOR)
 
-    sys.exit(not result.wasSuccessful())
+    # ===================== ejercicio 2 =====================
+
+    suite2 = unittest.defaultTestLoader.loadTestsFromTestCase(TestEvaluationTwo)
+    silent_stream2 = io.StringIO()
+    runner2 = CustomTestRunner(stream=silent_stream2, verbosity=0)
+    result2 = runner2.run(suite2)
+
+    print(f"{BOLD}EVALUACION 2{RESET}")
+    # Resultados individuales
+    print(SEPARATOR)
+    print(f"{BOLD}Resultados individuales:{RESET}")
+    for test_case in result2.successes:
+        print(f"{test_case._testMethodName}: {GREEN}{BOLD}PASSED{RESET}")
+
+    for test_case, traceback in result2.failures + result2.errors:
+        name = getattr(test_case, "_testMethodName", str(test_case))
+        print(f"{name}: {RED}{BOLD}FAILED{RESET}")
+        # Extraer solo el mensaje de la última línea del traceback
+        last_line = traceback.strip().split('\n')[-1]
+        mensaje = last_line.split(':')[-1].strip()
+        print(f"- detalles: {LIGHT_RED}{mensaje}{RESET}")
+
+    # Resumen final
+    print(SEPARATOR)
+    print(f"{BOLD}Resumen final:{RESET}")
+    if result2.wasSuccessful():
+        print(f"{GREEN}{BOLD}SUCCESS:{RESET} Todos los tests pasaron correctamente.")
+    else:
+        print(f"{RED}{BOLD}FAILED:{RESET} Uno o más tests fallaron.")
+    print(SEPARATOR)
+
+    sys.exit(not result1.wasSuccessful() and not result2.wasSuccessful() )

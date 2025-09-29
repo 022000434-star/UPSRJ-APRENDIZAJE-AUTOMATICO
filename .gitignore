@@ -52,3 +52,5 @@ instance/
 *.sqlite3
 
 *.log
+src**/output**
+**test_output**

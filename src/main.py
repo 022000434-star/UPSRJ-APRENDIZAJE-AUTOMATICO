@@ -8,15 +8,21 @@
 # Descripción: Script principal del proyecto
 # ============================================================
 import introduction as intro
+import linear_regression as lr
 import numpy as np
 import matplotlib.pyplot as plt
 import sys, os
 
 # Ruta al archivo de entrada
-FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "inputs", "estudiantes.csv")
+CSV_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "inputs", "estudiantes.csv")
 
-def main():
-    
+# Ruta a la información de entrada
+SOURCE_URL = "https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-ML0101EN-SkillsNetwork/labs/Module%202/data/FuelConsumptionCo2.csv"
+
+SEPARATOR = f"{'='*50}"
+
+def introduction():
+
     # Status: OK
     status = os.EX_OK
     
@@ -24,7 +30,7 @@ def main():
         print(f"Procesando lista de estudiantes.")
         
         # Cargar estudiantes
-        total, df = intro.csv_registers(FILE)
+        total, df = intro.csv_registers(CSV_FILE)
         if total is None or df is None:
             print("Error: No se pudo cargar el archivo CSV.\n")
             return os.EX_SOFTWARE
@@ -112,7 +118,53 @@ def main():
         print(f"Error inesperado: {e}\n")
     
     # Return de la función: status EX_OK (0) | EX_SOFTWARE (70)
-    return status    
+    return status   
+
+def linear_regression():
     
+    # Status: OK
+    status = os.EX_OK
+    
+    # Definición de parámetros para comparación de modelos de regresión lineal
+    OUTPUT = os.path.join(os.path.dirname(__file__), "output")
+    HISTOGRAM = os.path.join(OUTPUT, "histogram.png")
+    BASE = "CO2EMISSIONS"
+    FEATURE_1 = "ENGINESIZE"
+    FEATURE_2 = "FUELCONSUMPTION_COMB"
+    
+    try:
+        # Creación de directorio
+        if not os.path.exists(OUTPUT):
+            os.mkdir(OUTPUT)
+        
+        # Comparación de modelos de regresión lineal
+        lr.LinearRegressionCompare(url=SOURCE_URL, hist=HISTOGRAM, base=BASE, f1=FEATURE_1, f2=FEATURE_2, out=OUTPUT)
+        print(f"Comparación de modelos: [{FEATURE_1} {FEATURE_2}] con {BASE} completada.\n")
+    except Exception as e:
+        # Status: Error de software
+        status = os.EX_SOFTWARE
+        print(f"Error inesperado: {e}\n")
+        
+    # Return de la función: status EX_OK (0) | EX_SOFTWARE (70)
+    return status  
+    
+def main(): 
+    
+    # Status: OK
+    status = os.EX_OK
+    
+    # Evaluación de primer ejercicio
+    print(f"EJERCICIO 1")
+    print(SEPARATOR)    
+    status = introduction()
+    
+    # Evaluación de segundo ejercicio
+    print(f"EJERCICIO 2")
+    print(SEPARATOR)
+    status = linear_regression()
+    
+    # Return de la función: status EX_OK (0) | EX_SOFTWARE (70)
+    return status  
+
 if __name__ == "__main__":
     sys.exit(main())
