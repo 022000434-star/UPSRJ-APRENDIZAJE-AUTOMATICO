@@ -1,0 +1,2 @@
+from .linear_regression import LinearRegressionCompare
+from .multiple_linear_regression import MultipleLinearRegressionCompare
