@@ -46,9 +46,9 @@ class MultipleLinearRegressionCompare:
                                     out=os.path.join(out, f"multiple_linear_regression_{self.f1.lower()}_{self.f2.lower()}_{self.base.lower()}.png")) 
         # Cortes verticales individuales del gráfico
         self.plot_variable(model=self.m, col=0, x=self.d[1], y=self.y, x_label=self.f1.capitalize(), y_label=self.base.capitalize(),
-                        out=os.path.join(out, f"linear_regression_{self.f1.lower()}_{self.base.lower()}.png")) 
+                        out=os.path.join(out, f"split_mlr_{self.f1.lower()}_{self.base.lower()}.png")) 
         self.plot_variable(model=self.m, col=1, x=self.d[1], y=self.y, x_label=self.f1.capitalize(), y_label=self.base.capitalize(),
-                        out=os.path.join(out, f"linear_regression_{self.f2.lower()}_{self.base.lower()}.png")) 
+                        out=os.path.join(out, f"split_mlr_{self.f2.lower()}_{self.base.lower()}.png")) 
         
     # TODO: Define un método que preprocese y estandarice las características correlacionadas. 
     #       La forma común de hacer esto es restar el promedio y dividir por la desviación estándar. 
