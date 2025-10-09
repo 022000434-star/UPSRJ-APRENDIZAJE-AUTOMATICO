@@ -12,10 +12,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 class DataSource:
-    def __init__(self, url: str):
+    def __init__(self, url: str, churn: bool=False):
         self.url = url
         self.data = self.fetch_url()
-        self.relevant_features = self.set_relevant_features()        
+        self.relevant_features = self.set_relevant_features(churn=churn)
         
     def fetch_url(self) -> pd.DataFrame:
         """
@@ -36,7 +36,7 @@ class DataSource:
             print(f"Error: no se pudo extraer la información del url {self.url}: {e}")
         return data
 
-    def set_relevant_features(self) -> pd.DataFrame:
+    def set_relevant_features(self, churn: bool=False) -> pd.DataFrame:
         """
         Selecciona características relevantes del conjunto de datos para un modelo de regresión lineal.
         Las características incluyen tamaño del motor, número de cilindros, consumo de combustible y emisiones de CO₂.
@@ -50,11 +50,16 @@ class DataSource:
         #          - The number of cylinders
         #          - The combined fuel consumption
         #          - The CO2 emissions  
-        rf_cols = ['ENGINESIZE', 'CYLINDERS', 'FUELCONSUMPTION_CITY', 'FUELCONSUMPTION_HWY', 'FUELCONSUMPTION_COMB', 'FUELCONSUMPTION_COMB_MPG', 'CO2EMISSIONS']
+        if churn:
+            rf_cols = ['tenure', 'age', 'address', 'income', 'ed', 'employ', 'equip', 'churn']
+        else:
+            rf_cols = ['ENGINESIZE', 'CYLINDERS', 'FUELCONSUMPTION_CITY', 'FUELCONSUMPTION_HWY', 'FUELCONSUMPTION_COMB', 'FUELCONSUMPTION_COMB_MPG', 'CO2EMISSIONS']
         rf_data = None
         try:
             # NOTE: https://www.geeksforgeeks.org/python/different-ways-to-create-pandas-dataframe/#creating-a-dataframe-from-another-dataframe
             rf_data = self.data[rf_cols]
+            if churn: 
+                self.data['churn'] = self.data['churn'].astype('int')
             print(f"Características relevantes seleccionadas: {rf_cols}")
         except Exception as e:
             rf_data = None
