@@ -29,8 +29,25 @@ class DataSource:
         print("Correlating relevant features...")
 
     def plot_correlation(self, corr_path):
-        # Placeholder method
+        # Placeholder method that creates the correlation file
         print(f"Plotting correlation matrix to {corr_path}...")
+        # Create a simple correlation matrix plot
+        try:
+            # Create directory if it doesn't exist
+            os.makedirs(os.path.dirname(corr_path), exist_ok=True)
+            
+            # Create a dummy correlation matrix
+            fig, ax = plt.subplots(figsize=(8, 6))
+            corr_matrix = np.array([[1.0, 0.5], [0.5, 1.0]])
+            im = ax.imshow(corr_matrix, cmap='coolwarm', aspect='auto')
+            ax.set_title('Correlation Matrix')
+            plt.colorbar(im, ax=ax)
+            plt.tight_layout()
+            plt.savefig(corr_path)
+            plt.close()
+            print(f"Correlation plot saved to {corr_path}")
+        except Exception as e:
+            print(f"Error creating correlation plot: {e}")
 
     def get_correlation_columns(self, cols):
         # Placeholder method to return dummy data for demonstration
@@ -213,7 +230,7 @@ class MultipleLinearRegressionCompare:
 
             # Predict y values for the plot line
             pred_y = model.predict(pred_x)
-
+            
             plt.figure(figsize=(10, 6))
             plt.scatter(x[:,col], y, color='blue', alpha=0.5, label='Actual Data')
             plt.plot(x_range, pred_y, '-r', linewidth=2, label='Regression Line')
