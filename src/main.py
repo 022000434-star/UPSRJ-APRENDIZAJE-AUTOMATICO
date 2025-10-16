@@ -147,7 +147,7 @@ def linear_regression():
         
     # Return de la función: status EX_OK (0) | EX_SOFTWARE (70)
     return status  
-
+    
 def multiple_linear_regression():
     # Status: OK
     status = os.EX_OK
@@ -214,7 +214,6 @@ def main():
     print(f"EJERCICIO 2")
     print(SEPARATOR)
     status = linear_regression()
-    
     # Evaluación de tercer ejercicio
     print(f"EJERCICIO 3")
     print(SEPARATOR)
@@ -223,10 +222,11 @@ def main():
     # Evaluación de cuarto ejercicio
     print(f"EJERCICIO 4")
     print(SEPARATOR)
-    status = logistic_regression()
-    
+    status = logistic_regression()    
     # Return de la función: status EX_OK (0) | EX_SOFTWARE (70)
     return status  
 
 if __name__ == "__main__":
     sys.exit(main())
+
+    sys.exit(not result1.wasSuccessful() and not result2.wasSuccessful() )
