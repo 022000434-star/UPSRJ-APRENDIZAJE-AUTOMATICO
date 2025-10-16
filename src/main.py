@@ -53,10 +53,12 @@ def introduction():
         # Exportar resultados
         OUTPUT = os.path.join(os.path.dirname(__file__), "outputs", "aprobados.csv")
         try:
+            # Crear directorio si no existe
+            os.makedirs(os.path.dirname(OUTPUT), exist_ok=True)
             intro.export_data(aprobados, OUTPUT)
             print(f"- Datos exportados a: {OUTPUT}")
-        except:
-            print("Error: No se pudo exportar el archivo CSV.\n")
+        except Exception as e:
+            print(f"Error: No se pudo exportar el archivo CSV: {e}\n")
             return os.EX_SOFTWARE
 
         # Comparar DataFrames
@@ -103,11 +105,12 @@ def introduction():
             plt.legend()
             plt.grid(True)
             plt.tight_layout()
-            plt.savefig(os.path.join(os.path.dirname(OUTPUT), "analisis.png"), dpi=300)
-            plt.show()
-            print("Gráfica guardada como 'analisis.png'\n")
-        except:
-            print("Error: No se pudo generar la gráfica.\n")
+            analisis_path = os.path.join(os.path.dirname(OUTPUT), "analisis.png")
+            plt.savefig(analisis_path, dpi=300)
+            plt.close()
+            print(f"Gráfica guardada como '{analisis_path}'\n")
+        except Exception as e:
+            print(f"Error: No se pudo generar la gráfica: {e}\n")
             return os.EX_SOFTWARE
 
         print(f"Completado.\n")
@@ -202,31 +205,39 @@ def logistic_regression():
 
 def main():
     
-    # Status: OK
-    status = os.EX_OK
+    # Status acumulativo - comienza como OK
+    overall_status = os.EX_OK
     
     # Evaluación de primer ejercicio
     print(f"EJERCICIO 1")
     print(SEPARATOR)    
-    status = introduction()
+    status1 = introduction()
+    if status1 != os.EX_OK:
+        overall_status = status1
     
     # Evaluación de segundo ejercicio
     print(f"EJERCICIO 2")
     print(SEPARATOR)
-    status = linear_regression()
+    status2 = linear_regression()
+    if status2 != os.EX_OK:
+        overall_status = status2
+    
     # Evaluación de tercer ejercicio
     print(f"EJERCICIO 3")
     print(SEPARATOR)
-    status = multiple_linear_regression()
+    status3 = multiple_linear_regression()
+    if status3 != os.EX_OK:
+        overall_status = status3
     
     # Evaluación de cuarto ejercicio
     print(f"EJERCICIO 4")
     print(SEPARATOR)
-    status = logistic_regression()    
+    status4 = logistic_regression()
+    if status4 != os.EX_OK:
+        overall_status = status4
+    
     # Return de la función: status EX_OK (0) | EX_SOFTWARE (70)
-    return status  
+    return overall_status
 
 if __name__ == "__main__":
     sys.exit(main())
-
-    sys.exit(not result1.wasSuccessful() and not result2.wasSuccessful() )
