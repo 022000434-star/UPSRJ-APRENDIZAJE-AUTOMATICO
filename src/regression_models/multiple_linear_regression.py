@@ -72,17 +72,14 @@ class MultipleLinearRegressionCompare:
         # Coeficientes de regresor y la intercepción
         self.get_coef_and_int(self.m)
 
-        # Se agregan guiones bajos para que el nombre del archivo de salida coincida con la prueba
-        output_filename = f"multiple_linear_regression_{self.f1.lower()}_{self.f2.lower()}_{self.base.lower()}.png"
-        
         # Gráficos de Regresión lineal múltiple
         self.plot_model_and_predict(model=self.m, x=self.d[1], y=self.d[3], x_label=self.f1.capitalize(), y_label=self.f2.capitalize(), z_label=self.base.capitalize(),
-                                    out=os.path.join(out, output_filename))
+                                    out=os.path.join(out, f"multiple_linear_regression_{self.f1}_{self.f2}_{self.base}.png"))
         # Cortes verticales individuales del gráfico
         self.plot_variable(model=self.m, col=0, x=self.d[1], y=self.d[3], x_label=self.f1.capitalize(), y_label=self.base.capitalize(),
-                           out=os.path.join(out, f"split_mlr_{self.f1.lower()}_{self.base.lower()}.png"))
+                           out=os.path.join(out, f"split_mlr_{self.f1}_{self.base}.png"))
         self.plot_variable(model=self.m, col=1, x=self.d[1], y=self.d[3], x_label=self.f2.capitalize(), y_label=self.base.capitalize(),
-                           out=os.path.join(out, f"split_mlr_{self.f2.lower()}_{self.base.lower()}.png"))
+                           out=os.path.join(out, f"split_mlr_{self.f2}_{self.base}.png"))
 
     # TODO: Define un método que preprocese y estandarice las características correlacionadas.
     #       La forma común de hacer esto es restar el promedio y dividir por la desviación estándar.
