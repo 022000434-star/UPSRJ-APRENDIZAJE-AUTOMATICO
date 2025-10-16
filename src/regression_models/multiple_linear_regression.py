@@ -53,8 +53,13 @@ class MultipleLinearRegressionCompare:
         self.f1 = f1
         self.f2 = f2
         # Seleccionar las características para analisis de correlación
-        self.x = self.source.get_correlation_columns(cols=[0,1])
-        self.y = self.source.get_correlation_columns(cols=[2])
+        self.x = self.source.get_correlation_columns(cols=[f1, f2])
+        self.y = self.source.get_correlation_columns(cols=[base])
+
+        # Se convierten los datos a arreglos de NumPy y se asegura que tengan 2 dimensiones
+        self.x = np.asarray(self.x).reshape(-1, 2)
+        self.y = np.asarray(self.y).reshape(-1, 1)
+
         # Preprocesamiento para estandarizar las características. De esta manera el modelo no se inclinará
         # a favor de ninguna característica debido a su magnitud.
         self.std_scaler, self.x_std = self.standarize(x=self.x)
@@ -63,134 +68,74 @@ class MultipleLinearRegressionCompare:
         # Creación de modelos de regresión lineal para las opciones
         self.m = self.create_model()
         # Entrenamiento de modelos
-        # NOTE: The training data required (x_train, y_train) is accessed via self.d
         self.train_model(self.m, self.d)
         # Coeficientes de regresor y la intercepción
         self.get_coef_and_int(self.m)
+
+        # Se agregan guiones bajos para que el nombre del archivo de salida coincida con la prueba
+        output_filename = f"multiple_linear_regression_{self.f1.lower()}_{self.f2.lower()}_{self.base.lower()}.png"
+        
         # Gráficos de Regresión lineal múltiple
-        # NOTE: Using test data (self.d[1]) for plotting predictions
         self.plot_model_and_predict(model=self.m, x=self.d[1], y=self.d[3], x_label=self.f1.capitalize(), y_label=self.f2.capitalize(), z_label=self.base.capitalize(),
-                                    out=os.path.join(out, f"multiple_linear_regression_{self.f1.lower()}{self.f2.lower()}{self.base.lower()}.png"))
+                                    out=os.path.join(out, output_filename))
         # Cortes verticales individuales del gráfico
         self.plot_variable(model=self.m, col=0, x=self.d[1], y=self.d[3], x_label=self.f1.capitalize(), y_label=self.base.capitalize(),
                            out=os.path.join(out, f"split_mlr_{self.f1.lower()}_{self.base.lower()}.png"))
         self.plot_variable(model=self.m, col=1, x=self.d[1], y=self.d[3], x_label=self.f2.capitalize(), y_label=self.base.capitalize(),
                            out=os.path.join(out, f"split_mlr_{self.f2.lower()}_{self.base.lower()}.png"))
 
-    # TODO: Define un método que preprocese y estandarice las características correlacionadas.
-    #       La forma común de hacer esto es restar el promedio y dividir por la desviación estándar.
-    #       Scikit-learn tiene una implementación para esto.
-    # NOTE: https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html
-    #       https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html#sklearn.preprocessing.StandardScaler.fit_transform
     def standarize(self, x: np.ndarray) -> tuple[preprocessing.StandardScaler, np.ndarray]:
         std_scaler = preprocessing.StandardScaler()
         x_std = std_scaler.fit_transform(x)
         return std_scaler, x_std
 
-    # TODO: Define un método que prepare la información para ser analizada por regresión lineal.
-    #       Recuerda que al hacer un modelo de aprendizaje automático debemos dividir la información disponible en
-    #       datos de entrenamiento y datos de pruebas, por lo tanto, a la salida debe
-    #       haber un tuple(x_train, x_test, y_train, y_test) de arreglos de numpy.
-    # NOTE: https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html
     def prepare_data(self, x:np.ndarray, y:np.ndarray, prc: float, random_state: int) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
         """
         Divide los datos en conjuntos de entrenamiento y prueba.
-
-        Args:
-            x (np.ndarray): Característica independiente.
-            y (np.ndarray): Variable dependiente.
-            prc (float): Proporción para prueba (entre 0 y 1).
-            random_state (int): Semilla para reproducibilidad.
-
-        Returns:
-            tuple: (x_train, x_test, y_train, y_test)
         """
         x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=prc, random_state=random_state)
         return (x_train, x_test, y_train, y_test)
 
-    # TODO: Define un método que devuelva un objeto "linear_model.LinearRegression" de scikit-learn.
-    # NOTE: https://scikit-learn.org/stable/modules/linear_model.html
     def create_model(self) -> linear_model.LinearRegression:
         """
         Crea un modelo de regresión lineal.
-
-        Returns:
-            LinearRegression: Modelo vacío listo para entrenar.
         """
         return linear_model.LinearRegression()
 
-    # TODO: Define un método que entrene un modelo de entrada "linear_model" de scikit-learn
-    #       con la información de entrada "data".
-    # NOTE: https://numpy.org/doc/stable/reference/generated/numpy.ndarray.reshape.html
-    #       https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html#sklearn.linear_model.LinearRegression.fit
     def train_model(self, model: linear_model.LinearRegression, data: tuple) -> None:
         """
         Entrena el modelo con los datos de entrenamiento.
-
-        Args:
-            model (LinearRegression): Modelo a entrenar.
-            data (tuple): (x_train, x_test, y_train, y_test)
         """
         x_train = data[0]
         y_train = data[2]
         model.fit(x_train, y_train)
 
-    # TODO: Define un método que obtenga los coeficientes de regresor y la intercepción
-    #       de un modelo de entrada "linear_model" de scikit-learn.
-    # NOTE: https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html#sklearn.linear_model.LinearRegression
     def get_coef_and_int(self, model: linear_model.LinearRegression) -> None:
         """
         Imprime los coeficientes y la intercepción del modelo.
-
-        Args:
-            model (LinearRegression): Modelo entrenado.
         """
         print(f"Coeficientes del modelo (pendientes): {model.coef_}")
         print(f"Intercepción del modelo: {model.intercept_}")
 
     def plot_model_and_predict(self, model: linear_model.LinearRegression, x: np.ndarray, y: np.ndarray, x_label: str, y_label: str, z_label: str, out: str) -> None:
         try:
-            # Ensure X1, X2, and y have compatible shapes for 3D plotting
             X1 = x[:, 0]
             X2 = x[:, 1]
-
-            # Create a mesh grid for plotting the regression plane
             x1_surf, x2_surf = np.meshgrid(np.linspace(X1.min(), X1.max(), 100),
                                            np.linspace(X2.min(), X2.max(), 100))
-
-            # Predict over the entire mesh grid to draw the plane
             y_surf = model.predict(np.c_[x1_surf.ravel(), x2_surf.ravel()]).reshape(x1_surf.shape)
-
-
-            # Predict y values using the trained regression model to compare with actual y values
             y_pred = model.predict(x)
             residuals = y - y_pred
-            above_plane = residuals >= 0
-            below_plane = residuals < 0
-            
-            above_plane = above_plane.flatten()
-            below_plane = below_plane.flatten()
+            above_plane = residuals.flatten() >= 0
+            below_plane = residuals.flatten() < 0
 
-
-            # Plotting
             fig = plt.figure(figsize=(20, 8))
             ax = fig.add_subplot(111, projection='3d')
-
-            # Plot the data points above and below the plane in different colors
             ax.scatter(X1[above_plane], X2[above_plane], y[above_plane], label="Above Plane",s=70,alpha=.7,ec='k', c='cyan')
             ax.scatter(X1[below_plane], X2[below_plane], y[below_plane], label="Below Plane",s=50,alpha=.3,ec='k', c='magenta')
-
-            # Plot the regression plane
-            ax.plot_surface(x1_surf, x2_surf, y_surf, color='k', alpha=0.21, label='Regression Plane')
-
-            # Set view and labels
+            ax.plot_surface(x1_surf, x2_surf, y_surf, color='k', alpha=0.21)
             ax.view_init(elev=10, azim=120)
-
             ax.legend(fontsize='x-large',loc='upper left')
-            ax.set_xticks([])
-            ax.set_yticks([])
-            ax.set_zticks([])
-            ax.set_box_aspect(None, zoom=0.85)
             ax.set_xlabel(x_label, fontsize='xx-large', labelpad=10)
             ax.set_ylabel(y_label, fontsize='xx-large', labelpad=10)
             ax.set_zlabel(z_label, fontsize='xx-large', labelpad=10)
@@ -204,21 +149,13 @@ class MultipleLinearRegressionCompare:
 
     def plot_variable(self, model: linear_model.LinearRegression, col: int, x: np.ndarray, y: np.ndarray, x_label: str, y_label: str, out: str) -> None:
         try:
-            # To plot the effect of one variable, we hold the other constant (e.g., at its mean)
             x_other_mean = np.mean(x[:, 1-col])
-            
-            # Create a range of values for the variable of interest
             x_range = np.linspace(x[:, col].min(), x[:, col].max(), 100)
-            
-            # Create the prediction input
             if col == 0:
                 pred_x = np.c_[x_range, np.full_like(x_range, x_other_mean)]
             else:
                 pred_x = np.c_[np.full_like(x_range, x_other_mean), x_range]
-
-            # Predict y values for the plot line
             pred_y = model.predict(pred_x)
-
             plt.figure(figsize=(10, 6))
             plt.scatter(x[:,col], y, color='blue', alpha=0.5, label='Actual Data')
             plt.plot(x_range, pred_y, '-r', linewidth=2, label='Regression Line')
@@ -232,21 +169,3 @@ class MultipleLinearRegressionCompare:
             print(f"Se creó gráfico de corte vertical de regresión lineal múltiple en {out}")
         except Exception as e:
             print(f"Error: no se pudo crear gráfico de corte vertical de regresión lineal múltiple: {e}")
-
-# Example of how to run the class
-if __name__ == '__main__':
-    # Create a directory for output files if it doesn't exist
-    output_dir = "regression_plots"
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-
-    # Initialize the class with dummy parameters
-    # In a real scenario, 'url' would point to a dataset.
-    mlr = MultipleLinearRegressionCompare(
-        url="path/to/your/data.csv",
-        corr=os.path.join(output_dir, "correlation.png"),
-        f1="Feature1",
-        f2="Feature2",
-        base="Target",
-        out=output_dir
-    )
